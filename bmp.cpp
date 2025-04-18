@@ -224,7 +224,7 @@ void desplazamiento_izquierda(const unsigned char* entrada, unsigned char* salid
 {
 
     for (int i = 0; i < totalBytes; ++i)
-        salida[i] = entrada[i] << bits;
+        salida[i] = entrada[i] << bits & 0xFF; //modificación para "limitar" los bit a 8 
 }
 
 bool verificacion_enmascaramiento(const unsigned char* enmascarado, const unsigned int* datos_txt, int totalPixeles)
