@@ -180,18 +180,34 @@ unsigned int* loadSeedMasking(const char* nombreArchivo, int &seed, int &n_pixel
     return RGB;
 }
 
-void rotar_izquierda(unsigned char *ID, unsigned short int n, unsigned char *transformacion) {
+unsigned char* rotar_izquierda(unsigned char *ID, unsigned short int n) {
+    unsigned char *transformacion = new unsigned char;
     *transformacion = *ID;
     for (int i = 0; i < n; ++i) {
         unsigned char bit = (*transformacion & 0b10000000) >> 7;
         *transformacion = (*transformacion << 1) | bit;
     }
+    return transformacion;
 }
 
-void rotar_derecha(unsigned char *ID, unsigned short int n, unsigned char *transformacion) {
+unsigned char* rotar_derecha(unsigned char *ID, unsigned short int n) {
+    unsigned char *transformacion = new unsigned char;
     *transformacion = *ID;
     for (int i = 0; i < n; ++i) {
         unsigned char bit = (*transformacion & 0b00000001) << 7;
         *transformacion = (*transformacion >> 1) | bit;
     }
+
+    return transformacion;
+}
+
+unsigned char* Enmascaramiento(unsigned char* transformacion, unsigned char* mascara, unsigned int semilla, int totalPixeles) {
+
+    unsigned char* enmascarado = new unsigned char[totalPixeles];
+
+    for (int k = 0; k < totalPixeles; ++k) {
+        enmascarado[k] = transformacion[k + semilla] + mascara[k];
+    }
+
+    return enmascarado;
 }
