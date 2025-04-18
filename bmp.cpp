@@ -211,3 +211,35 @@ unsigned char* Enmascaramiento(unsigned char* transformacion, unsigned char* mas
 
     return enmascarado;
 }
+
+
+void desplazamiento_derecha(const unsigned char* entrada, unsigned char* salida, int totalBytes, int bits)
+{
+
+    for (int i = 0; i < totalBytes; ++i)
+        salida[i] = entrada[i] >> bits;
+}
+
+void desplazamiento_izquierda(const unsigned char* entrada, unsigned char* salida, int totalBytes, int bits)
+{
+
+    for (int i = 0; i < totalBytes; ++i)
+        salida[i] = entrada[i] << bits;
+}
+
+bool verificacion_enmascaramiento(const unsigned char* enmascarado, const unsigned int* datos_txt, int totalPixeles)
+{
+    for (int i = 0; i < totalPixeles * 3; i += 3)
+    {
+        if (static_cast<unsigned int>(enmascarado[i]) != datos_txt[i] ||
+            static_cast<unsigned int>(enmascarado[i+1]) != datos_txt[i+1] ||
+            static_cast<unsigned int>(enmascarado[i+2]) != datos_txt[i+2]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+
+
