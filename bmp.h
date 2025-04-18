@@ -14,6 +14,10 @@ public:
     unsigned char* rotar_izquierda(unsigned char *ID, unsigned short int n);
     unsigned char* rotar_derecha(unsigned char *ID, unsigned short int n);
     unsigned char* Enmascaramiento(unsigned char* transformacion, unsigned char* mascara, unsigned int semilla, int totalPixeles);
+    void desplazamiento_derecha(const unsigned char* entrada, unsigned char* salida, int totalBytes, int bits);
+    void desplazamiento_izquierda(const unsigned char* entrada, unsigned char* salida, int totalBytes, int bits);
+    bool verificacion_enmascaramiento(const unsigned char* enmascarado, const unsigned int* datos_txt, int totalPixeles);
+    
 };
 
 #endif // BMP_H
