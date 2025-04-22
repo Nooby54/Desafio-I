@@ -24,19 +24,19 @@ int main()
         unsigned int *maskingData = bmp.loadSeedMasking(name.c_str(), seed, n_pixels);
 
         //Desenmascarando
-        ID = bmp.Enmascaramiento(ID, seed, height_ID * width_ID * 3);
+        bmp.desenmascarar(ID, seed, height_ID * width_ID * 3);
 
         for (int bit = 1; bit <= 8; bit++)
         {
-            unsigned char *IT = ID;
+            unsigned char *IT = new unsigned char[height_ID * width_ID * 3];
             if (transformacion == false)
             {
-                IT = bmp.rotar_derecha(IT, bit, height_ID * width_ID * 3);
+                IT = bmp.rotar_derecha(ID, bit, height_ID * width_ID * 3);
 
                 if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
                 {
                     transformacion = true;
-                    ID = IT;
+                    //Copiar datos de IT a ID
                 }
             }
         }

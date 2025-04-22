@@ -219,7 +219,6 @@ unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, un
     {
         transformacion[i] = ID[i];
     }
-
     for (unsigned int t = 0; t < totalBytes; t++)
     {
         for (int i = 0; i < bits; ++i)
@@ -237,33 +236,39 @@ unsigned char *bmp::XOR(unsigned char *ID){
     int height_IM = 0;
     int width_IM = 0;
     unsigned char *IM = loadPixels(I_M, width_IM, height_IM);
-    delete[] IM;
     unsigned char *transformacion = new unsigned char[height_IM*width_IM*3];
     for(int i=0;i<height_IM*width_IM*3;i++){
-        transformacion = (ID[i] ^ IM[i]); //Corregir
+        transformacion[i] = ID[i] ^ IM[i];
     }
-    return nullptr;
+    delete[] IM;
+    return transformacion;
 }
 
-unsigned char *bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles)
+void bmp::desenmascarar(unsigned char* S, unsigned int semilla, int totalPixeles)
 {
-    // Corregir ya que debe desenmascarar, despejar la formula
-    // Cargando M
     QString M = "../../data/M.bmp";
     int height_M = 0;
     int width_M = 0;
-    unsigned char *IM = loadPixels(M, width_M, height_M);
-    delete[] IM;
-    unsigned char *mascara = 0;
-    unsigned char *enmascarado = new unsigned char[totalPixeles];
 
-    for (int k = 0; k < totalPixeles; ++k)
-    {
-        S[k + semilla] = enmascarado[k] -  mascara[k];
+    unsigned char* mascara = loadPixels(M, width_M, height_M);
+    if (!mascara) return;
+
+    if (semilla + (height_M * width_M * 3) > totalPixeles) {
+        cout << "Advertencia: El desplazamiento y tamaño de la máscara exceden el tamaño de la imagen enmascarada.";
+        delete[] mascara;
+        return;
     }
 
-    return enmascarado;
+    for (int k = 0; k < (height_M * width_M * 3); ++k) {
+        S[k + semilla] = S[k] - mascara[k];
+    }
+
+    // Liberar la memoria de la máscara
+    delete[] mascara;
 }
+
+
+
 
 void bmp::desplazamiento_derecha(const unsigned char *entrada, unsigned char *salida, int totalBytes, int bits)
 {
