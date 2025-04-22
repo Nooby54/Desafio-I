@@ -14,6 +14,7 @@ int main()
 
     unsigned int n = 2;
     bool transformacion = false;
+    unsigned char *IT = new unsigned char[height_ID * width_ID * 3];
     for (int i = n; i >= 0; i--)
     {
         // Variables para almacenar la semilla y el número de píxeles leídos del archivo de enmascaramiento
@@ -25,10 +26,14 @@ int main()
 
         //Desenmascarando
         bmp.desenmascarar(ID, seed, height_ID * width_ID * 3);
-
+        IT = bmp.XOR(ID);
+        if(bmp.verificacion_enmascaramiento(IT,maskingData,n_pixels)){
+            transformacion = true;
+            //Copiar datos de IT a ID
+        }
+        else{
         for (int bit = 1; bit <= 8; bit++)
         {
-            unsigned char *IT = new unsigned char[height_ID * width_ID * 3];
             if (transformacion == false)
             {
                 IT = bmp.rotar_derecha(ID, bit, height_ID * width_ID * 3);
@@ -39,7 +44,7 @@ int main()
                     //Copiar datos de IT a ID
                 }
             }
-        }
+        }}
     }
     return 0;
 }
