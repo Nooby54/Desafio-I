@@ -231,14 +231,35 @@ unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, un
     return transformacion;
 }
 
-unsigned char *bmp::Enmascaramiento(unsigned char *transformacion, unsigned char *mascara, unsigned int semilla, int totalPixeles)
+unsigned char *bmp::XOR(unsigned char *ID){
+    // Cargando IM
+    QString I_M = "../../data/I_M.bmp";
+    int height_IM = 0;
+    int width_IM = 0;
+    unsigned char *IM = loadPixels(I_M, width_IM, height_IM);
+    delete[] IM;
+    unsigned char *transformacion = new unsigned char[height_IM*width_IM*3];
+    for(int i=0;i<height_IM*width_IM*3;i++){
+        transformacion = (ID[i] ^ IM[i]); //Corregir
+    }
+    return nullptr;
+}
+
+unsigned char *bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles)
 {
-    // Corregir
+    // Corregir ya que debe desenmascarar, despejar la formula
+    // Cargando M
+    QString M = "../../data/M.bmp";
+    int height_M = 0;
+    int width_M = 0;
+    unsigned char *IM = loadPixels(M, width_M, height_M);
+    delete[] IM;
+    unsigned char *mascara = 0;
     unsigned char *enmascarado = new unsigned char[totalPixeles];
 
     for (int k = 0; k < totalPixeles; ++k)
     {
-        enmascarado[k] = transformacion[k + semilla] + mascara[k];
+        S[k + semilla] = enmascarado[k] -  mascara[k];
     }
 
     return enmascarado;
