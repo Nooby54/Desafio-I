@@ -14,7 +14,7 @@ int main()
 
     unsigned int n = 2;
     bool transformacion = false;
-    unsigned char *IT = new unsigned char[height_ID * width_ID * 3];
+    unsigned char *IT = nullptr;
     for (int i = n; i >= 0; i--)
     {
         // Variables para almacenar la semilla y el número de píxeles leídos del archivo de enmascaramiento
@@ -36,6 +36,7 @@ int main()
         {
             if (transformacion == false)
             {
+                delete[] IT;
                 IT = bmp.rotar_derecha(ID, bit, height_ID * width_ID * 3);
 
                 if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
@@ -45,6 +46,10 @@ int main()
                 }
             }
         }}
+        delete[] maskingData;
     }
+    delete[] ID;
+    delete[] IT;
+
     return 0;
 }
