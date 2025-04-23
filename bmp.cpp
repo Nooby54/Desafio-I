@@ -192,13 +192,20 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     return RGB;
 }
 
-unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::copiar_arreglo(unsigned char *IT, unsigned int totalBytes)
 {
-    unsigned char *transformacion = new unsigned char[totalBytes];
+    unsigned char *ID = new unsigned char[totalBytes];
     for (unsigned int i = 0; i < totalBytes; i++)
     {
-        transformacion[i] = ID[i];
+        ID[i] = IT[i];
     }
+
+    return ID;
+}
+
+unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
+{
+    unsigned char *transformacion = copiar_arreglo(ID, totalBytes);
 
     for (unsigned int t = 0; t < totalBytes; t++)
     {
@@ -214,11 +221,7 @@ unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, 
 
 unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
-    unsigned char *transformacion = new unsigned char[totalBytes];
-    for (unsigned int i = 0; i < totalBytes; i++)
-    {
-        transformacion[i] = ID[i];
-    }
+    unsigned char *transformacion = copiar_arreglo(ID, totalBytes);
     for (unsigned int t = 0; t < totalBytes; t++)
     {
         for (int i = 0; i < bits; ++i)
@@ -230,45 +233,47 @@ unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, un
     return transformacion;
 }
 
-unsigned char *bmp::XOR(unsigned char *ID){
+unsigned char *bmp::XOR(unsigned char *ID)
+{
     // Cargando IM
     QString I_M = "../../data/I_M.bmp";
     int height_IM = 0;
     int width_IM = 0;
     unsigned char *IM = loadPixels(I_M, width_IM, height_IM);
-    unsigned char *transformacion = new unsigned char[height_IM*width_IM*3];
-    for(int i=0;i<height_IM*width_IM*3;i++){
+    unsigned char *transformacion = new unsigned char[height_IM * width_IM * 3];
+    for (int i = 0; i < height_IM * width_IM * 3; i++)
+    {
         transformacion[i] = ID[i] ^ IM[i];
     }
     delete[] IM;
     return transformacion;
 }
 
-void bmp::desenmascarar(unsigned char* S, unsigned int semilla, int totalPixeles)
+void bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles)
 {
     QString M = "../../data/M.bmp";
     int height_M = 0;
     int width_M = 0;
 
-    unsigned char* mascara = loadPixels(M, width_M, height_M);
-    if (!mascara) return;
+    unsigned char *mascara = loadPixels(M, width_M, height_M);
+    if (!mascara)
+        return;
 
-    if (semilla + (height_M * width_M * 3) > totalPixeles) {
+    if (semilla + (height_M * width_M * 3) > totalPixeles)
+    {
         cout << "Advertencia: El desplazamiento y tamaño de la máscara exceden el tamaño de la imagen enmascarada.";
         delete[] mascara;
         return;
     }
 
-    for (int k = 0; k < (height_M * width_M * 3); ++k) {
+    for (int k = 0; k < (height_M * width_M * 3); ++k)
+    {
         S[k + semilla] = S[k] - mascara[k];
     }
 
     // Liberar la memoria de la máscara
     delete[] mascara;
 }
-
-
-
 
 void bmp::desplazamiento_derecha(const unsigned char *entrada, unsigned char *salida, int totalBytes, int bits)
 {
