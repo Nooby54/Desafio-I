@@ -312,14 +312,15 @@ unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, int bits, i
     return salida;
 }
 
-bool bmp::verificacion_enmascaramiento(const unsigned char *enmascarado, const unsigned int *datos_txt, int totalPixeles)
+bool bmp::verificacion_enmascaramiento( const unsigned char *enmascarado, const unsigned int *datos_txt, int semilla, int totalPixeles)
 {
-    for (int i = 0; i < totalPixeles * 3; i += 3)
-    {
-        if (static_cast<unsigned int>(enmascarado[i]) != datos_txt[i] ||
-            static_cast<unsigned int>(enmascarado[i + 1]) != datos_txt[i + 1] ||
-            static_cast<unsigned int>(enmascarado[i + 2]) != datos_txt[i + 2])
-        {
+    for (int i = 0; i < totalPixeles * 3; i += 3) {
+        int pos = semilla + i; 
+        
+        if (static_cast<unsigned int>(enmascarado[pos]) != datos_txt[i] || 
+            static_cast<unsigned int>(enmascarado[pos + 1]) != datos_txt[i + 1] || 
+            static_cast<unsigned int>(enmascarado[pos + 2]) != datos_txt[i + 2])
+        { 
             return false;
         }
     }
