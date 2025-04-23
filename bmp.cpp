@@ -292,22 +292,22 @@ void bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles
     delete[] mascara;
 }
 
-unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, int bits, int totalBytes) 
+unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
 {
     unsigned char* salida = new unsigned char[totalBytes];
-    for (int i = 0; i < totalBytes; ++i) 
+    for (int i = 0; i < totalBytes; ++i)
     {
         salida[i] = entrada[i] >> bits;
     }
     return salida;
 }
 
-unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, int bits, int totalBytes) 
+unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
 {
     unsigned char* salida = new unsigned char[totalBytes];
-    for (int i = 0; i < totalBytes; ++i) 
+    for (int i = 0; i < totalBytes; ++i)
     {
-        salida[i] = entrada[i] << bits & 0xFF; 
+        salida[i] = entrada[i] << bits & 0xFF;
     }
     return salida;
 }
