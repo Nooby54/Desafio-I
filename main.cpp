@@ -66,12 +66,12 @@ int main()
                         break;
                     }
                 }
-                if (transformacion==false)
+                if (transformacion == false) 
                 {
                     delete[] IT;
-                    IT = bmp.desplazamiento_izquierda(ID,bit,totalBytes);
+                    IT = bmp.desplazamiento_izquierda(ID, bit, totalBytes); 
                     
-                    if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels)) 
                     {
                         transformacion = true;
                         delete[] ID;
@@ -79,18 +79,20 @@ int main()
                         break; 
                     }
                 }
-                if (transformacion==false)
-                {
+                
+               if (transformacion == false) 
+               {
                     delete[] IT;
-                    IT = bmp.desplazamiento_derecha(ID,bit,totalBytes);
+                    IT = bmp.desplazamiento_derecha(ID, bit, totalBytes);  // Corregido
                     
-                    if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels)) 
                     {
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
                         break; 
                     }
+                }
                     
                 }
             }
