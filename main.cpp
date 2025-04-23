@@ -28,7 +28,7 @@ int main()
         // Desenmascarando
         bmp.desenmascarar(ID, seed, totalBytes);
         IT = bmp.XOR(ID);
-       if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
+        if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
         {
             transformacion = true;
             delete[] ID;
@@ -66,39 +66,42 @@ int main()
                         break;
                     }
                 }
-                if (transformacion == false) 
+                if (transformacion == false)
                 {
                     delete[] IT;
-                    IT = bmp.desplazamiento_izquierda(ID, bit, totalBytes); 
-                    
-                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels)) 
+                    IT = bmp.desplazamiento_izquierda(ID, bit, totalBytes);
+
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
                     {
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
-                        break; 
+                        break;
                     }
                 }
-                
-               if (transformacion == false) 
-               {
+
+                if (transformacion == false)
+                {
                     delete[] IT;
                     IT = bmp.desplazamiento_derecha(ID, bit, totalBytes);  // Corregido
-                    
-                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels)) 
+
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
                     {
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
-                        break; 
+                        break;
                     }
-                }
-                    
                 }
             }
         }
         delete[] maskingData;
+        transformacion = false;
+
     }
+    QString I_O = "../../data/salida.bmp";
+    bool hola = bmp.exportImage(ID,width_ID,height_ID,I_O);
+
     delete[] ID;
     delete[] IT;
 
