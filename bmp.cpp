@@ -292,18 +292,24 @@ void bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles
     delete[] mascara;
 }
 
-void bmp::desplazamiento_derecha(const unsigned char *entrada, unsigned char *salida, int totalBytes, int bits)
+unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, int bits, int totalBytes) 
 {
-
-    for (int i = 0; i < totalBytes; ++i)
+    unsigned char* salida = new unsigned char[totalBytes];
+    for (int i = 0; i < totalBytes; ++i) 
+    {
         salida[i] = entrada[i] >> bits;
+    }
+    return salida;
 }
 
-void bmp::desplazamiento_izquierda(const unsigned char *entrada, unsigned char *salida, int totalBytes, int bits)
+unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, int bits, int totalBytes) 
 {
-
-    for (int i = 0; i < totalBytes; ++i)
-        salida[i] = entrada[i] << bits & 0xFF; // modificación para "limitar" los bit a 8
+    unsigned char* salida = new unsigned char[totalBytes];
+    for (int i = 0; i < totalBytes; ++i) 
+    {
+        salida[i] = entrada[i] << bits & 0xFF; 
+    }
+    return salida;
 }
 
 bool bmp::verificacion_enmascaramiento(const unsigned char *enmascarado, const unsigned int *datos_txt, int totalPixeles)
