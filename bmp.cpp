@@ -4,27 +4,12 @@
 #include <iostream>
 #include <QCoreApplication>
 #include <QImage>
-#include <QDir>
-#include <QRegularExpression>
 
 using namespace std;
 
 bmp::bmp() {}
 
 
-int bmp::contarArchivosMascara(const QString& rutaDirectorio) {
-    QDir directorio(rutaDirectorio);
-    QStringList archivos = directorio.entryList(QStringList() << "M*.txt", QDir::Files);
-    return archivos.size();
-}
-
-
-QStringList bmp::encontrarArchivosMascara(const QString& rutaDirectorio) {
-    QDir directorio(rutaDirectorio);
-    QStringList archivos = directorio.entryList(QStringList() << "M*.txt", QDir::Files);
-    archivos.sort(); 
-    return archivos;
-}
 
 unsigned char *bmp::loadPixels(QString input, int &width, int &height)
 {
