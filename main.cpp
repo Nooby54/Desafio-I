@@ -66,6 +66,33 @@ int main()
                         break;
                     }
                 }
+                if (transformacion==false)
+                {
+                    delete[] IT;
+                    IT = bmp.desplazamiento_izquierda(ID,bit,totalBytes);
+                    
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+                    {
+                        transformacion = true;
+                        delete[] ID;
+                        ID = bmp.copiar_arreglo(IT, totalBytes);
+                        break; 
+                    }
+                }
+                if (transformacion==false)
+                {
+                    delete[] IT;
+                    IT = bmp.desplazamiento_derecha(ID,bit,totalBytes);
+                    
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+                    {
+                        transformacion = true;
+                        delete[] ID;
+                        ID = bmp.copiar_arreglo(IT, totalBytes);
+                        break; 
+                    }
+                    
+                }
             }
         }
         delete[] maskingData;
