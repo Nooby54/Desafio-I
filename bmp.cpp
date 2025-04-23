@@ -266,7 +266,7 @@ unsigned char *bmp::XOR(unsigned char *ID)
     return transformacion;
 }
 
-void bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles)
+unsigned char* bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles)
 {
     QString M = "../../data/M.bmp";
     int height_M = 0;
@@ -274,22 +274,24 @@ void bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles
 
     unsigned char *mascara = loadPixels(M, width_M, height_M);
     if (!mascara)
-        return;
+        return nullptr;
 
     if (semilla + (height_M * width_M * 3) > totalPixeles)
     {
         cout << "Advertencia: El desplazamiento y tamaño de la máscara exceden el tamaño de la imagen enmascarada.";
         delete[] mascara;
-        return;
+        return nullptr;
     }
 
+    unsigned char* nomask = copiar_arreglo(S,totalPixeles);
     for (int k = 0; k < (height_M * width_M * 3); ++k)
     {
-        S[k + semilla] = S[k] - mascara[k];
+        nomask[k + semilla] = S[k] - mascara[k];
     }
 
     // Liberar la memoria de la máscara
     delete[] mascara;
+    return nomask;
 }
 
 unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, int bits, int totalBytes) 

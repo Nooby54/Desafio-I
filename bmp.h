@@ -15,7 +15,7 @@ public:
     unsigned char *rotar_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes);
     unsigned char *rotar_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes);
     unsigned char *XOR(unsigned char *ID);
-    void desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles);
+    unsigned char* desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles);
     unsigned char* desplazamiento_izquierda(unsigned char* entrada, int bits, int totalBytes);
     unsigned char* desplazamiento_derecha(unsigned char* entrada, int bits, int totalBytes);
     bool verificacion_enmascaramiento( const unsigned char *enmascarado, const unsigned int *datos_txt, int semilla, int totalPixeles);
