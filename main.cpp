@@ -28,7 +28,7 @@ int main()
         // Desenmascarando
         bmp.desenmascarar(ID, seed, totalBytes);
         IT = bmp.XOR(ID);
-        if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+       if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
         {
             transformacion = true;
             delete[] ID;
@@ -44,7 +44,7 @@ int main()
                     delete[] IT;
                     IT = bmp.rotar_derecha(ID, bit, totalBytes);
 
-                    if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
                     {
                         transformacion = true;
                         delete[] ID;
@@ -58,7 +58,7 @@ int main()
                     delete[] IT;
                     IT = bmp.rotar_izquierda(ID, bit, totalBytes);
 
-                    if (bmp.verificacion_enmascaramiento(IT, maskingData, n_pixels))
+                    if (bmp.verificacion_enmascaramiento(IT, maskingData, seed, n_pixels))
                     {
                         transformacion = true;
                         delete[] ID;
