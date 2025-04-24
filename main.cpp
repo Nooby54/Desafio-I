@@ -12,7 +12,10 @@ int main()
 
     unsigned char *ID = bmp.loadPixels(I_D, width_ID, height_ID);
 
-    unsigned int n = 2; //¿Como saber con que valor se inicializa n?
+
+    QString ruta = "../../data";
+    int n = bmp.contarArchivosMascara(ruta) - 1;
+
     bool transformacion = false;
     unsigned char *IT = nullptr;
     int totalBytes = height_ID * width_ID * 3;
@@ -24,13 +27,11 @@ int main()
         if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
         {
             transformacion = true;
-            delete[] ID;
-            ID = bmp.copiar_arreglo(IT, totalBytes);
             cout << "La transformacion " << n-i+1 << " fue un XOR" << endl;
         }
         else
         {
-            for (int bit = 1; bit < 8; bit++)
+            for (int bit = 1; bit <= 8; bit++)
             {
                 if (transformacion == false)
                 {
@@ -40,8 +41,6 @@ int main()
                     if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
                     {
                         transformacion = true;
-                        delete[] ID;
-                        ID = bmp.copiar_arreglo(IT, totalBytes);
                         cout << "La transformacion " << n-i+1 << " fue una rotacion a la izquierda de " << bit << " bits" << endl;
                         break;
                     }
@@ -55,9 +54,6 @@ int main()
                     if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
                     {
                         transformacion = true;
-                        delete[] ID;
-                        ID = bmp.copiar_arreglo(IT, totalBytes);
-
                         cout << "La transformacion " << n-i+1 << " fue una rotacion a la derecha de " << bit << " bits" << endl;;
                         break;
                     }
@@ -70,9 +66,6 @@ int main()
                     if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
                     {
                         transformacion = true;
-                        delete[] ID;
-                        ID = bmp.copiar_arreglo(IT, totalBytes);
-
                         cout << "La transformacion " << n-i+1 << " fue un desplazamiento a la izquierda de " << bit << " bits" << endl;;
                         break;
                     }
@@ -86,14 +79,15 @@ int main()
                     if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
                     {
                         transformacion = true;
-                        delete[] ID;
-                        ID = bmp.copiar_arreglo(IT, totalBytes);
-
                         cout << "La transformacion " << n-i+1 << " fue un desplazamiento a la derecha de " << bit << " bits" << endl;
                         break;
                     }
                 }
             }
+        }
+        if(transformacion){
+            delete[] ID;
+            ID = bmp.copiar_arreglo(IT, totalBytes);
         }
         transformacion = false;
     }

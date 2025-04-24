@@ -19,7 +19,6 @@ public:
     unsigned char* desplazamiento_derecha(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes);
     bool verificacion_enmascaramiento( const unsigned char *ID, const char* name);
     int contarArchivosMascara(const QString& rutaDirectorio);
-    QString* listarArchivosMascara(const QString& rutaDirectorio, int& cantidad);
 };
 
 #endif // BMP_H

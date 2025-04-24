@@ -305,38 +305,6 @@ bool bmp::verificacion_enmascaramiento( const unsigned char *ID, const char* nam
 
 int bmp::contarArchivosMascara(const QString& rutaDirectorio) {
     QDir directorio(rutaDirectorio);
-    if (!directorio.exists()) {
-        qWarning("Error: Directorio no existe - %s", qUtf8Printable(rutaDirectorio));
-        return 0;
-    }
-
     QStringList archivos = directorio.entryList(QStringList() << "M*.txt", QDir::Files);
     return archivos.size();
 }
-
-QString* bmp::listarArchivosMascara(const QString& rutaDirectorio, int& cantidad) {
-    QDir directorio(rutaDirectorio);
-    if (!directorio.exists()) {
-        cantidad = 0;
-        qWarning("Error: Directorio no existe - %s", qUtf8Printable(rutaDirectorio));
-        return nullptr;
-    }
-
-
-    QStringList archivosQt = directorio.entryList(QStringList() << "M*.txt", QDir::Files);
-    cantidad = archivosQt.size();
-
-    if (cantidad == 0) {
-        qWarning("Advertencia: No hay archivos M*.txt en %s", qUtf8Printable(rutaDirectorio));
-        return nullptr;
-    }
-
-
-    QString* archivos = new QString[cantidad];
-    for (int i = 0; i < cantidad; ++i) {
-        archivos[i] = directorio.filePath(archivosQt[i]);
-    }
-
-    return archivos;
-}
-
