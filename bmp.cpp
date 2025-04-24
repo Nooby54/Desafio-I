@@ -251,34 +251,6 @@ unsigned char *bmp::XOR(unsigned char *ID)
     return transformacion;
 }
 
-unsigned char* bmp::desenmascarar(unsigned char *S, unsigned int semilla, int totalPixeles)
-{
-    QString M = "../../data/M.bmp";
-    int height_M = 0;
-    int width_M = 0;
-
-    unsigned char *mascara = loadPixels(M, width_M, height_M);
-    if (!mascara)
-        return nullptr;
-
-    if (semilla + (height_M * width_M * 3) > totalPixeles)
-    {
-        cout << "Advertencia: El desplazamiento y tamaño de la máscara exceden el tamaño de la imagen enmascarada.";
-        delete[] mascara;
-        return nullptr;
-    }
-
-    unsigned char* nomask = copiar_arreglo(S,totalPixeles);
-    for (int k = 0; k < (height_M * width_M * 3); ++k)
-    {
-        nomask[k + semilla] = S[k] - mascara[k];
-    }
-
-    // Liberar la memoria de la máscara
-    delete[] mascara;
-    return nomask;
-}
-
 unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
 {
     unsigned char* salida = new unsigned char[totalBytes];
@@ -299,17 +271,29 @@ unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, unsigned sh
     return salida;
 }
 
-bool bmp::verificacion_enmascaramiento( const unsigned char *enmascarado, const unsigned int *datos_txt, int semilla, int totalPixeles)
+bool bmp::verificacion_enmascaramiento( const unsigned char *ID, const char* name)
 {
-    for (int i = 0; i < totalPixeles * 3; i += 3) {
-        int pos = semilla + i; 
-        
-        if (static_cast<unsigned int>(enmascarado[pos]) != datos_txt[i] || 
-            static_cast<unsigned int>(enmascarado[pos + 1]) != datos_txt[i + 1] || 
-            static_cast<unsigned int>(enmascarado[pos + 2]) != datos_txt[i + 2])
-        { 
+    QString M = "../../data/M.bmp";
+    int height_M = 0;
+    int width_M = 0;
+
+    // Cargar la máscara desde el archivo
+    unsigned char* mascara = loadPixels(M, width_M, height_M);
+
+    //Abrir archivo .txt
+    int seed = 0;
+    int n_pixels = 0;
+    unsigned int *maskingData = loadSeedMasking(name, seed, n_pixels);
+
+    for(int k = 0; k < n_pixels*3;k++){
+        int transformacion = ID[seed + k] + mascara[k];
+        if(maskingData[k] != transformacion){
+            delete[] maskingData;
+            delete[] mascara;
             return false;
         }
     }
+    delete[] maskingData;
+    delete[] mascara;
     return true;
 }
