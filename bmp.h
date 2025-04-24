@@ -15,9 +15,9 @@ public:
     unsigned char *rotar_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes);
     unsigned char *rotar_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes);
     unsigned char *XOR(unsigned char *ID);
-    unsigned char* desplazamiento_izquierda(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes);
-    unsigned char* desplazamiento_derecha(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes);
-    bool verificacion_enmascaramiento( const unsigned char *ID, const char* name);
+    unsigned char* desplazamiento_izquierda(unsigned char* ID, unsigned short int bits, unsigned int totalBytes);
+    unsigned char* desplazamiento_derecha(unsigned char* ID, unsigned short int bits, unsigned int totalBytes);
+    bool verificacion_enmascaramiento(unsigned char *ID, const char* name);
     int contarArchivosMascara(const QString& rutaDirectorio);
 };
 

@@ -4,17 +4,11 @@
 #include <iostream>
 #include <QCoreApplication>
 #include <QImage>
-
 #include <QDir>
-#include <QStringList>
-#include <QDebug>
-
 
 using namespace std;
 
 bmp::bmp() {}
-
-
 
 unsigned char *bmp::loadPixels(QString input, int &width, int &height)
 {
@@ -41,7 +35,6 @@ unsigned char *bmp::loadPixels(QString input, int &width, int &height)
     // Verifica si la imagen fue cargada correctamente
     if (imagen.isNull())
     {
-        //cout << "Error: No se pudo cargar la imagen BMP." << std::endl;
         return nullptr; // Retorna un puntero nulo si la carga falló
     }
 
@@ -107,14 +100,10 @@ bool bmp::exportImage(unsigned char *pixelData, int width, int height, QString a
     // Guardar la imagen en disco como archivo BMP
     if (!outputImage.save(archivoSalida, "BMP"))
     {
-        // Si hubo un error al guardar, mostrar mensaje de error
-        //cout << "Error: No se pudo guardar la imagen BMP modificada.";
         return false; // Indica que la operación falló
     }
     else
     {
-        // Si la imagen fue guardada correctamente, mostrar mensaje de éxito
-        //cout << "Imagen BMP modificada guardada como " << archivoSalida.toStdString() << endl;
         return true; // Indica éxito
     }
 }
@@ -145,7 +134,7 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     if (!archivo.is_open())
     {
         // Verificar si el archivo pudo abrirse correctamente
-        //cout << "No se pudo abrir el archivo." << endl;
+        // cout << "No se pudo abrir el archivo." << endl;
         return nullptr;
     }
 
@@ -168,7 +157,6 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     // Verificar que se pudo reabrir el archivo correctamente
     if (!archivo.is_open())
     {
-        //cout << "Error al reabrir el archivo." << endl;
         return nullptr;
     }
 
@@ -191,31 +179,62 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     // Cerrar el archivo después de terminar la lectura
     archivo.close();
 
-    // Mostrar información de control en consola
-    //cout << "Semilla: " << seed << endl;
-    //cout << "Cantidad de píxeles leídos: " << n_pixels << endl;
-
     // Retornar el puntero al arreglo con los datos RGB
     return RGB;
 }
 
 unsigned char *bmp::copiar_arreglo(unsigned char *IT, unsigned int totalBytes)
 {
+    /*
+     * @brief Copia la informacion de un arreglo a otro almacenado en el heap.
+     *
+     * Esta función crea un arreglo dinámico 'ID', que copia la informacion del arreglo 'IT'.
+     *
+     * @param IT Puntero a un arreglo dinamico.
+     * @param totalBytes Tamaño del arreglo.
+     *
+     * @return Puntero al nuevo arreglo dinámico que contiene la copia de los datos de 'IT'.
+     *
+     * @note La función no libera la memoria del arreglo IT; esta responsabilidad recae en el usuario.
+     */
+
+    // Reserva memoria dinamica para almacenar la copia de 'IT'
     unsigned char *ID = new unsigned char[totalBytes];
+
+    // Copiar la informacion de 'IT' a 'ID'
     for (unsigned int i = 0; i < totalBytes; i++)
     {
         ID[i] = IT[i];
     }
 
+    // Retorna el puntero al arreglo con los datos de 'IT' copiados
     return ID;
 }
 
 unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
+    /*
+     * @brief Rota el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
+     *
+     * Esta función copia el arreglo dinámico 'ID' a 'transformacion' y, rota cada byte del arreglo
+     * una cantidad n (bits) de bits a la izquierda.
+     *
+     * @param ID Puntero a un arreglo dinamico con los valores RGB de la imagen BMP.
+     * @param bits Cantidad de bits a rotar.
+     * @param totalBytes Tamaño del arreglo.
+     *
+     * @return Puntero al nuevo arreglo dinámico que contiene la rotacion de 'ID'.
+     *
+     * @note La función no libera la memoria del arreglo ID; esta responsabilidad recae en el usuario.
+     */
+
+    // Copia 'ID' a 'transformacion' invocando la funcion copiar arreglo
     unsigned char *transformacion = copiar_arreglo(ID, totalBytes);
 
+    // Itera sobre 'transformacion' para rotar cada byte
     for (unsigned int t = 0; t < totalBytes; t++)
     {
+        // Rota cada byte a la izquierda la cantidad de veces que se requiere
         for (int i = 0; i < bits; ++i)
         {
             unsigned char bit = (transformacion[t] & 0b10000000) >> 7;
@@ -223,88 +242,207 @@ unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, 
         }
     }
 
+    // Retorna el puntero al arreglo con los datos de 'ID' rotados
     return transformacion;
 }
 
 unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
+    /*
+     * @brief Rota el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
+     *
+     * Esta función copia el arreglo dinámico 'ID' a 'transformacion' y, rota cada byte del arreglo
+     * una cantidad n (bits) de bits a la derecha.
+     *
+     * @param ID Puntero a un arreglo dinamico con los valores RGB de la imagen BMP.
+     * @param bits Cantidad de bits a rotar.
+     * @param totalBytes Tamaño del arreglo.
+     *
+     * @return Puntero al nuevo arreglo dinámico que contiene la rotacion de 'ID'.
+     *
+     * @note La función no libera la memoria del arreglo ID; esta responsabilidad recae en el usuario.
+     */
+
+    // Copia 'ID' a 'transformacion' invocando la funcion copiar arreglo
     unsigned char *transformacion = copiar_arreglo(ID, totalBytes);
+
+    // Itera sobre 'transformacion' para rotar cada byte
     for (unsigned int t = 0; t < totalBytes; t++)
     {
+        // Rota cada byte a la derecha la cantidad de veces que se requiere
         for (int i = 0; i < bits; ++i)
         {
             unsigned char bit = (transformacion[t] & 0b00000001) << 7;
             transformacion[t] = (transformacion[t] >> 1) | bit;
         }
     }
+
+    // Retorna el puntero al arreglo con los datos de 'ID' rotados
     return transformacion;
 }
 
 unsigned char *bmp::XOR(unsigned char *ID)
 {
-    // Cargando IM
+    /*
+     * @brief Aplica una operación XOR al arreglo 'ID' usando una máscara cargada desde archivo.
+     *
+     * Esta función recibe el arreglo dinámico 'ID', luego carga la máscara 'IM' en un arreglo dinámico,
+     * y aplica una operación XOR entre ambos arreglos. El resultado se almacena en un nuevo arreglo
+     * dinámico llamado 'transformacion'.
+     *
+     * @param ID Puntero a un arreglo dinámico con los valores RGB de la imagen BMP.
+     *
+     * @return Puntero al nuevo arreglo dinámico que contiene el resultado del XOR entre 'ID' e 'IM'.
+     *
+     * @note La función no libera la memoria del arreglo 'ID'; esta responsabilidad recae en el usuario.
+     */
+
+    // Se carga IM
     QString I_M = "../../data/I_M.bmp";
     int height_IM = 0;
     int width_IM = 0;
     unsigned char *IM = loadPixels(I_M, width_IM, height_IM);
+
+    // Reserva memoria dinamica para almacenar el XOR de 'ID' con 'IM'
     unsigned char *transformacion = new unsigned char[height_IM * width_IM * 3];
+
+    // Itera sobre el tamaño de 'IM' y aplica el XOR en cada byte
     for (int i = 0; i < height_IM * width_IM * 3; i++)
     {
         transformacion[i] = ID[i] ^ IM[i];
     }
+
+    // Libera la memoria de 'IM'
     delete[] IM;
+
+    // Retorna el puntero al arreglo con el resultado del XOR entre 'ID' e 'IM'
     return transformacion;
 }
 
-unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::desplazamiento_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
-    unsigned char* salida = new unsigned char[totalBytes];
+    /*
+     * @brief Desplaza a la derecha el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
+     *
+     * Esta función desplaza a la derecha cada byte del arreglo 'ID' una cantidad n (bits) de bits a la derecha.
+     *
+     * @param ID Puntero a un arreglo dinamico con los valores RGB de la imagen BMP.
+     * @param bits Cantidad de bits a desplazar.
+     * @param totalBytes Tamaño del arreglo.
+     *
+     * @return Puntero al nuevo arreglo dinámico que contiene el desplazamiento de 'ID'.
+     *
+     * @note La función no libera la memoria del arreglo ID; esta responsabilidad recae en el usuario.
+     */
+
+    // Reserva memoria dinamica para almacenar el desplazamiento de 'ID'
+    unsigned char *transformacion = new unsigned char[totalBytes];
+
+    // Desplaza a la derecha cada byte de 'ID' y lo almacena en transformacion
     for (unsigned int i = 0; i < totalBytes; ++i)
     {
-        salida[i] = entrada[i] >> bits;
+        transformacion[i] = ID[i] >> bits;
     }
-    return salida;
+
+    // Retorna el puntero al arreglo con los datos de 'ID' desplazados
+    return transformacion;
 }
 
-unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::desplazamiento_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
-    unsigned char* salida = new unsigned char[totalBytes];
+    /*
+     * @brief Desplaza a la izquierda el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
+     *
+     * Esta función desplaza  a la izquierda cada byte del arreglo 'ID' una cantidad n (bits) de bits a la derecha.
+     *
+     * @param ID Puntero a un arreglo dinamico con los valores RGB de la imagen BMP.
+     * @param bits Cantidad de bits a desplazar.
+     * @param totalBytes Tamaño del arreglo.
+     *
+     * @return Puntero al nuevo arreglo dinámico que contiene el desplazamiento de 'ID'.
+     *
+     * @note La función no libera la memoria del arreglo ID; esta responsabilidad recae en el usuario.
+     */
+
+    // Reserva memoria dinamica para almacenar el desplazamiento de 'ID'
+    unsigned char *transformacion = new unsigned char[totalBytes];
+
+    // Desplaza a la izquierda cada byte de 'ID' y lo almacena en transformacion
     for (unsigned int i = 0; i < totalBytes; ++i)
     {
-        salida[i] = entrada[i] << bits & 0xFF;
+        transformacion[i] = ID[i] << bits & 0xFF;
     }
-    return salida;
+
+    // Retorna el puntero al arreglo con los datos de 'ID' desplazados
+    return transformacion;
 }
 
-bool bmp::verificacion_enmascaramiento( const unsigned char *ID, const char* name)
+bool bmp::verificacion_enmascaramiento(unsigned char *ID, const char *name)
 {
+    /*
+     * @brief Validad que la transformacion sea la adecuada.
+     *
+     *Esta función carga una máscara BMP 'IM' y un archivo de datos .txt 'maskingData' en arreglos dinámicos.
+     *Luego, aplica una la funcion por enmascaramiento con el arreglo 'ID' y verifica que el resultado coincida
+     *con los valores esperados almacenados en el archivo de texto.
+     *
+     * @param ID Puntero a un arreglo dinámico con los valores RGB de la imagen BMP.
+     * @param name Nombre del archivo .txt.
+     *
+     * @return true si todos los valores transformados coinciden con los esperados; false en caso contrario.
+     *
+     * @note La función no libera la memoria del arreglo 'ID'; esta responsabilidad recae en el usuario.
+     */
+
+    // Se carga la mascara
     QString M = "../../data/M.bmp";
     int height_M = 0;
     int width_M = 0;
+    unsigned char *mascara = loadPixels(M, width_M, height_M);
 
-    // Cargar la máscara desde el archivo
-    unsigned char* mascara = loadPixels(M, width_M, height_M);
-
-    //Abrir archivo .txt
+    // Se abre el archivo .txt
     int seed = 0;
     int n_pixels = 0;
     unsigned int *maskingData = loadSeedMasking(name, seed, n_pixels);
 
+    // Se itera sobre el arreglo 'maskingData' que contiene la informacion del archivo .txt
     for(int k = 0; k < n_pixels*3;k++){
+        // Calcula la transformacion sobre 'ID'
         unsigned int transformacion = ID[seed + k] + mascara[k];
+
+        // Validad si la transformacion no es igual al resultado almacenado en 'maskingData'
         if(maskingData[k] != transformacion){
+            // Se librera 'maskingData' y 'mascara' y se retorna falso dado que todos los valores transformados no son iguales a los esperados
             delete[] maskingData;
             delete[] mascara;
             return false;
         }
     }
+    // Se librera 'maskingData' y 'mascara' y se retorna true dado que todos los valores transformados son iguales a los esperados
     delete[] maskingData;
     delete[] mascara;
     return true;
 }
 
-int bmp::contarArchivosMascara(const QString& rutaDirectorio) {
+int bmp::contarArchivosMascara(const QString &rutaDirectorio)
+{
+    /*
+     * @brief Cuenta la cantidad de archivos de texto con nombre que inicia por 'M' en un directorio dado.
+     *
+     * Esta función recorre un directorio especificado y cuenta cuántos archivos de texto existen
+     * cuyo nombre comienza con 'M' y tiene extensión '.txt'.
+     *
+     * @param rutaDirectorio Ruta del directorio a explorar.
+     *
+     * @return Número de archivos encontrados que cumplen con el patrón 'M*.txt'.
+     */
+
+    // Carga el directorio
     QDir directorio(rutaDirectorio);
+
+    // Genera una lista con los archivos que comiencen por 'M' y terminen por '.txt'
     QStringList archivos = directorio.entryList(QStringList() << "M*.txt", QDir::Files);
+
+    // Returna el tamaño de la lista (Cantidad de archivos que comiencen por 'M' y terminen por '.txt')
     return archivos.size();
 }

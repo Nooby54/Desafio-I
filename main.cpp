@@ -81,7 +81,7 @@ int main()
         delete[] ID;
         ID = bmp.copiar_arreglo(IT, totalBytes);
     }
-    // Se elimina IT
+    // Se libera IT
     delete[] IT;
 
     // Exportando ID, en este punto ya es IO
@@ -95,7 +95,7 @@ int main()
         cout << "Ocurrio un error al reconstruir la imagen" << endl;
     }
 
-    //Se elimina ID
+    //Se libera ID
     delete[] ID;
 
     return 0;
