@@ -254,7 +254,7 @@ unsigned char *bmp::XOR(unsigned char *ID)
 unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
 {
     unsigned char* salida = new unsigned char[totalBytes];
-    for (int i = 0; i < totalBytes; ++i)
+    for (unsigned int i = 0; i < totalBytes; ++i)
     {
         salida[i] = entrada[i] >> bits;
     }
@@ -264,7 +264,7 @@ unsigned char* bmp::desplazamiento_derecha(unsigned char* entrada, unsigned shor
 unsigned char* bmp::desplazamiento_izquierda(unsigned char* entrada, unsigned short int bits, unsigned int totalBytes)
 {
     unsigned char* salida = new unsigned char[totalBytes];
-    for (int i = 0; i < totalBytes; ++i)
+    for (unsigned int i = 0; i < totalBytes; ++i)
     {
         salida[i] = entrada[i] << bits & 0xFF;
     }
@@ -286,7 +286,7 @@ bool bmp::verificacion_enmascaramiento( const unsigned char *ID, const char* nam
     unsigned int *maskingData = loadSeedMasking(name, seed, n_pixels);
 
     for(int k = 0; k < n_pixels*3;k++){
-        int transformacion = ID[seed + k] + mascara[k];
+        unsigned int transformacion = ID[seed + k] + mascara[k];
         if(maskingData[k] != transformacion){
             delete[] maskingData;
             delete[] mascara;
