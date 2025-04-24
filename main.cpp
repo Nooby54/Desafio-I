@@ -12,7 +12,7 @@ int main()
 
     unsigned char *ID = bmp.loadPixels(I_D, width_ID, height_ID);
 
-    unsigned int n = 6;
+    unsigned int n = 2; //¿Como saber con que valor se inicializa n?
     bool transformacion = false;
     unsigned char *IT = nullptr;
     int totalBytes = height_ID * width_ID * 3;
@@ -26,6 +26,7 @@ int main()
             transformacion = true;
             delete[] ID;
             ID = bmp.copiar_arreglo(IT, totalBytes);
+            cout << "La transformacion " << n-i+1 << " fue un XOR" << endl;
         }
         else
         {
@@ -41,6 +42,7 @@ int main()
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
+                        cout << "La transformacion " << n-i+1 << " fue una rotacion a la izquierda de " << bit << " bits" << endl;
                         break;
                     }
                 }
@@ -55,6 +57,8 @@ int main()
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
+
+                        cout << "La transformacion " << n-i+1 << " fue una rotacion a la derecha de " << bit << " bits" << endl;;
                         break;
                     }
                 }
@@ -68,6 +72,8 @@ int main()
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
+
+                        cout << "La transformacion " << n-i+1 << " fue un desplazamiento a la izquierda de " << bit << " bits" << endl;;
                         break;
                     }
                 }
@@ -82,16 +88,22 @@ int main()
                         transformacion = true;
                         delete[] ID;
                         ID = bmp.copiar_arreglo(IT, totalBytes);
+
+                        cout << "La transformacion " << n-i+1 << " fue un desplazamiento a la derecha de " << bit << " bits" << endl;
                         break;
                     }
                 }
             }
         }
         transformacion = false;
-
     }
-    QString I_O = "../../data/salida.bmp";
-    bool hola = bmp.exportImage(ID,width_ID,height_ID,I_O);
+    QString I_O = "../../data/I_O.bmp";
+    if(bmp.exportImage(ID,width_ID,height_ID,I_O)){
+        cout << "Imagen original reconstruida correctamente" << endl;
+    }
+    else{
+        cout << "Ocurrio un error al reconstruir la imagen" << endl;
+    }
     delete[] ID;
     delete[] IT;
 

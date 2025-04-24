@@ -36,7 +36,7 @@ unsigned char *bmp::loadPixels(QString input, int &width, int &height)
     // Verifica si la imagen fue cargada correctamente
     if (imagen.isNull())
     {
-        cout << "Error: No se pudo cargar la imagen BMP." << std::endl;
+        //cout << "Error: No se pudo cargar la imagen BMP." << std::endl;
         return nullptr; // Retorna un puntero nulo si la carga falló
     }
 
@@ -103,13 +103,13 @@ bool bmp::exportImage(unsigned char *pixelData, int width, int height, QString a
     if (!outputImage.save(archivoSalida, "BMP"))
     {
         // Si hubo un error al guardar, mostrar mensaje de error
-        cout << "Error: No se pudo guardar la imagen BMP modificada.";
+        //cout << "Error: No se pudo guardar la imagen BMP modificada.";
         return false; // Indica que la operación falló
     }
     else
     {
         // Si la imagen fue guardada correctamente, mostrar mensaje de éxito
-        cout << "Imagen BMP modificada guardada como " << archivoSalida.toStdString() << endl;
+        //cout << "Imagen BMP modificada guardada como " << archivoSalida.toStdString() << endl;
         return true; // Indica éxito
     }
 }
@@ -140,7 +140,7 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     if (!archivo.is_open())
     {
         // Verificar si el archivo pudo abrirse correctamente
-        cout << "No se pudo abrir el archivo." << endl;
+        //cout << "No se pudo abrir el archivo." << endl;
         return nullptr;
     }
 
@@ -163,7 +163,7 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     // Verificar que se pudo reabrir el archivo correctamente
     if (!archivo.is_open())
     {
-        cout << "Error al reabrir el archivo." << endl;
+        //cout << "Error al reabrir el archivo." << endl;
         return nullptr;
     }
 
@@ -187,8 +187,8 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     archivo.close();
 
     // Mostrar información de control en consola
-    cout << "Semilla: " << seed << endl;
-    cout << "Cantidad de píxeles leídos: " << n_pixels << endl;
+    //cout << "Semilla: " << seed << endl;
+    //cout << "Cantidad de píxeles leídos: " << n_pixels << endl;
 
     // Retornar el puntero al arreglo con los datos RGB
     return RGB;
