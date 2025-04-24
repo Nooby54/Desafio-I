@@ -22,12 +22,12 @@ int main()
     for (int i = n; i >= 0; i--)
     {
         // Creacion del string con la direccion del archhivo .txt
-        string name = "../../data/M" + to_string(i) + ".txt";
+        QString name = "../../data/M" + QString::number(i) + ".txt";
 
         // Aplicacion del XOR y luego verificamos si es la transformacion adecuada
         delete[] IT;
         IT = bmp.XOR(ID);
-        if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
+        if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
         {
             cout << "La transformacion " << n - i + 1 << " fue un XOR" << endl;
         }
@@ -40,7 +40,7 @@ int main()
                 delete[] IT;
                 IT = bmp.desplazamiento_izquierda(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
+                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue un desplazamiento a la izquierda de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -50,7 +50,7 @@ int main()
                 delete[] IT;
                 IT = bmp.desplazamiento_derecha(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
+                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue un desplazamiento a la derecha de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -60,7 +60,7 @@ int main()
                 delete[] IT;
                 IT = bmp.rotar_derecha(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
+                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue una rotacion a la izquierda de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -70,7 +70,7 @@ int main()
                 delete[] IT;
                 IT = bmp.rotar_izquierda(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.c_str()))
+                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue una rotacion a la derecha de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
