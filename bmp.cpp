@@ -183,7 +183,7 @@ unsigned int *bmp::loadSeedMasking(const char *nombreArchivo, int &seed, int &n_
     return RGB;
 }
 
-unsigned char *bmp::copiar_arreglo(unsigned char *IT, unsigned int totalBytes)
+unsigned char *bmp::copiarArreglo(unsigned char *IT, unsigned int totalBytes)
 {
     /*
      * @brief Copia la informacion de un arreglo a otro almacenado en el heap.
@@ -211,7 +211,7 @@ unsigned char *bmp::copiar_arreglo(unsigned char *IT, unsigned int totalBytes)
     return ID;
 }
 
-unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::rotarIzquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
     /*
      * @brief Rota el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
@@ -229,7 +229,7 @@ unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, 
      */
 
     // Copia 'ID' a 'transformacion' invocando la funcion copiar arreglo
-    unsigned char *transformacion = copiar_arreglo(ID, totalBytes);
+    unsigned char *transformacion = copiarArreglo(ID, totalBytes);
 
     // Itera sobre 'transformacion' para rotar cada byte
     for (unsigned int t = 0; t < totalBytes; t++)
@@ -246,7 +246,7 @@ unsigned char *bmp::rotar_izquierda(unsigned char *ID, unsigned short int bits, 
     return transformacion;
 }
 
-unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::rotarDerecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
     /*
      * @brief Rota el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
@@ -264,7 +264,7 @@ unsigned char *bmp::rotar_derecha(unsigned char *ID, unsigned short int bits, un
      */
 
     // Copia 'ID' a 'transformacion' invocando la funcion copiar arreglo
-    unsigned char *transformacion = copiar_arreglo(ID, totalBytes);
+    unsigned char *transformacion = copiarArreglo(ID, totalBytes);
 
     // Itera sobre 'transformacion' para rotar cada byte
     for (unsigned int t = 0; t < totalBytes; t++)
@@ -319,7 +319,7 @@ unsigned char *bmp::XOR(unsigned char *ID)
     return transformacion;
 }
 
-unsigned char *bmp::desplazamiento_derecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::desplazamientoDerecha(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
     /*
      * @brief Desplaza a la derecha el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
@@ -348,7 +348,7 @@ unsigned char *bmp::desplazamiento_derecha(unsigned char *ID, unsigned short int
     return transformacion;
 }
 
-unsigned char *bmp::desplazamiento_izquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
+unsigned char *bmp::desplazamientoIzquierda(unsigned char *ID, unsigned short int bits, unsigned int totalBytes)
 {
     /*
      * @brief Desplaza a la izquierda el arreglo 'ID' y lo almacena en un arreglo almacenado en el heap.
@@ -377,7 +377,7 @@ unsigned char *bmp::desplazamiento_izquierda(unsigned char *ID, unsigned short i
     return transformacion;
 }
 
-bool bmp::verificacion_enmascaramiento(unsigned char *ID, const char *name)
+bool bmp::verificarEnmascaramiento(unsigned char *ID, const char *name)
 {
     /*
      * @brief Validad que la transformacion sea la adecuada.

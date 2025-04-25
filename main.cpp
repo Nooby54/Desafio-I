@@ -27,7 +27,7 @@ int main()
         // Aplicacion del XOR y luego verificamos si es la transformacion adecuada
         delete[] IT;
         IT = bmp.XOR(ID);
-        if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
+        if (bmp.verificarEnmascaramiento(IT, name.toStdString().c_str()))
         {
             cout << "La transformacion " << n - i + 1 << " fue un XOR" << endl;
         }
@@ -38,9 +38,9 @@ int main()
             {
                 //Aplicacion del desplazamiento a la derecha (inverso del desplazamiento a la izquierda) y validacion
                 delete[] IT;
-                IT = bmp.desplazamiento_izquierda(ID, bit, totalBytes);
+                IT = bmp.desplazamientoIzquierda(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
+                if (bmp.verificarEnmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue un desplazamiento a la izquierda de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -48,9 +48,9 @@ int main()
 
                 // Aplicacion del desplazamiento a la izquierda (inverso del desplazamiento a la derecha) y validacion
                 delete[] IT;
-                IT = bmp.desplazamiento_derecha(ID, bit, totalBytes);
+                IT = bmp.desplazamientoDerecha(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
+                if (bmp.verificarEnmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue un desplazamiento a la derecha de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -58,9 +58,9 @@ int main()
 
                 // Aplicacion de la rotacion derecha (inverso de la rotacion izquierda) y validacion
                 delete[] IT;
-                IT = bmp.rotar_derecha(ID, bit, totalBytes);
+                IT = bmp.rotarDerecha(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
+                if (bmp.verificarEnmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue una rotacion a la izquierda de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -68,9 +68,9 @@ int main()
 
                 // Aplicacion de la rotacion izquierda (inverso de la rotacion derecha) y validacion
                 delete[] IT;
-                IT = bmp.rotar_izquierda(ID, bit, totalBytes);
+                IT = bmp.rotarIzquierda(ID, bit, totalBytes);
 
-                if (bmp.verificacion_enmascaramiento(IT, name.toStdString().c_str()))
+                if (bmp.verificarEnmascaramiento(IT, name.toStdString().c_str()))
                 {
                     cout << "La transformacion " << n - i + 1 << " fue una rotacion a la derecha de " << bit << " bits" << endl;
                     break; // Sale del ciclo si la transformacion es correcta
@@ -79,7 +79,7 @@ int main()
         }
         // Se elimina ID y le asigno IT, pues en este punto IT ya esta destransformado
         delete[] ID;
-        ID = bmp.copiar_arreglo(IT, totalBytes);
+        ID = bmp.copiarArreglo(IT, totalBytes);
     }
     // Se libera IT
     delete[] IT;
