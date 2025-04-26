@@ -380,7 +380,7 @@ unsigned char *bmp::desplazamientoIzquierda(unsigned char *ID, unsigned short in
 bool bmp::verificarEnmascaramiento(unsigned char *ID, const char *name)
 {
     /*
-     * @brief Validad que la transformacion sea la adecuada.
+     * @brief Valida que la transformacion sea la adecuada.
      *
      *Esta función carga una máscara BMP 'IM' y un archivo de datos .txt 'maskingData' en arreglos dinámicos.
      *Luego, aplica una la funcion por enmascaramiento con el arreglo 'ID' y verifica que el resultado coincida
@@ -410,7 +410,7 @@ bool bmp::verificarEnmascaramiento(unsigned char *ID, const char *name)
         // Calcula la transformacion sobre 'ID'
         unsigned int enmascaramiento = ID[seed + k] + mascara[k];
 
-        // Validad si la transformacion no es igual al resultado almacenado en 'maskingData'
+        // Valida si la transformacion no es igual al resultado almacenado en 'maskingData'
         if(maskingData[k] != enmascaramiento){
             // Se librera 'maskingData' y 'mascara' y se retorna falso dado que todos los valores transformados no son iguales a los esperados
             delete[] maskingData;
@@ -443,6 +443,6 @@ int bmp::contarArchivosMascara(const QString &rutaDirectorio)
     // Genera una lista con los archivos que comiencen por 'M' y terminen por '.txt'
     QStringList archivos = directorio.entryList(QStringList() << "M*.txt", QDir::Files);
 
-    // Returna el tamaño de la lista (Cantidad de archivos que comiencen por 'M' y terminen por '.txt')
+    // Retorna el tamaño de la lista (Cantidad de archivos que comiencen por 'M' y terminen por '.txt')
     return archivos.size();
 }
