@@ -406,14 +406,13 @@ bool bmp::verificarEnmascaramiento(unsigned char *ID, const char *name)
     unsigned int *maskingData = loadSeedMasking(name, seed, n_pixels);
 
     // Se itera sobre el arreglo 'maskingData' que contiene la informacion del archivo .txt
-    for (int k = 0; k < n_pixels; k += 3)
-    {
-        // Transforma y valida cada pixel con el resultado almacenado en 'maskingData'
-        if (maskingData[k] != ID[seed + k] + mascara[k] ||
-            maskingData[k + 1] != ID[seed + (k + 1)] + mascara[k + 1] ||
-            maskingData[k + 2] != ID[seed + (k + 2)] + mascara[k + 2])
-        {
-            // Se libera 'maskingData' y 'mascara' y se retorna falso dado que todos los valores transformados no son iguales a los esperados
+    for(int k = 0; k < n_pixels*3;k++){
+        // Calcula la transformacion sobre 'ID'
+        unsigned int enmascaramiento = ID[seed + k] + mascara[k];
+
+        // Valida si la transformacion no es igual al resultado almacenado en 'maskingData'
+        if(maskingData[k] != enmascaramiento){
+            // Se librera 'maskingData' y 'mascara' y se retorna falso dado que todos los valores transformados no son iguales a los esperados
             delete[] maskingData;
             delete[] mascara;
             return false;
